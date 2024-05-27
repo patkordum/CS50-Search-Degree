@@ -51,7 +51,6 @@ def load_data(directory):
             except KeyError:
                 pass
 
-
 def main():
     if len(sys.argv) > 2:
         sys.exit("Usage: python degrees.py [directory]")
@@ -100,12 +99,12 @@ def shortest_path(source, target):
     '''
     # Start Node is tuple (000000,source_id)
     start_state=('000000',source)   
-    start=Node(state=start_state,parent=None,action=None)
+    start=Node(state=start_state,parent=None)
 
     frontier=QueueFrontier()
     frontier.add(start)
 
-    goal=Node(state=target,parent=None,action=None)
+    goal=Node(state=target,parent=None)
 
     # Track how many (and which) Nodes were explored
     explored=set()
@@ -115,7 +114,7 @@ def shortest_path(source, target):
         if frontier.empty():
             return None
         
-        # choose a node
+        # choose a node (queue - BFS Algorithm)
         node=frontier.remove()
         num_explored+=1
 
@@ -135,10 +134,9 @@ def shortest_path(source, target):
         # for every state (id), add to frontier if not yet explored and not in frontier
         for state in neighbors_for_person(node.state[1]):
             if not frontier.contains_state(state) and state not in explored:
-                child=Node(state=state,parent=node,action=None)
+                child=Node(state=state,parent=node)
                 frontier.add(child)
     
-
 def person_id_for_name(name):
     """
     Returns the IMDB id for a person's name,
@@ -176,7 +174,6 @@ def neighbors_for_person(person_id):
         for person_id in movies[movie_id]["stars"]:
             neighbors.add((movie_id, person_id))
     return neighbors
-
 
 if __name__ == "__main__":
     main()
